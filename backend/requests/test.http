@@ -1,0 +1,32 @@
+### Create a court
+POST http://localhost:8080/api/admin/courts
+Authorization: Basic admin yourpassword
+Content-Type: application/json
+
+{
+  "name": "Pickleball Court 1",
+  "type": "Pickleball",
+  "operatingHoursStart": "08:00:00",
+  "operatingHoursEnd": "20:00:00",
+  "maxDaysOut": 7
+}
+
+### Get all courts
+GET http://localhost:8080/api/admin/courts
+Authorization: Basic admin yourpassword
+
+### Generate slots for the court (replace COURT_ID with the id from your POST response)
+POST http://localhost:8080/api/admin/courts/58b2853c-5ade-44a7-b410-0c3a9cfcb77c/generate-slots
+Authorization: Basic admin yourpassword
+
+### Get slots for the court
+GET http://localhost:8080/api/courts/58b2853c-5ade-44a7-b410-0c3a9cfcb77c/slots?startDate=2026-04-14&endDate=2026-04-21
+
+### Reserve a slot (replace SLOT_ID with any id from the slots response)
+POST http://localhost:8080/api/courts/58b2853c-5ade-44a7-b410-0c3a9cfcb77c/slots/e2927fef-177f-4592-9c85-e2cad7952d0a/reserve
+Content-Type: application/json
+
+{
+  "bookerName": "John",
+  "bookerEmail": "thejohnnysavoy@gmail.com"
+}
