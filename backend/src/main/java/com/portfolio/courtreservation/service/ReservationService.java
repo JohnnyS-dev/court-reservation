@@ -1,5 +1,6 @@
 package com.portfolio.courtreservation.service;
 
+import com.portfolio.courtreservation.dto.ReservationResponse;
 import com.portfolio.courtreservation.dto.ReserveRequest;
 import com.portfolio.courtreservation.dto.ReserveResponse;
 import com.portfolio.courtreservation.model.Reservation;
@@ -77,8 +78,21 @@ public class ReservationService {
                 .build();
     }
 
-    public List<Reservation> getReservationsForCourt(UUID courtId) {
-        return reservationRepository.findBySlot_Court_Id(courtId);
+    public List<ReservationResponse> getReservationsForCourt(UUID courtId) {
+        return reservationRepository.findBySlot_Court_Id(courtId).stream()
+                .map(r -> ReservationResponse.builder()
+                        .id(r.getId())
+                        .bookerName(r.getBookerName())
+                        .bookerEmail(r.getBookerEmail())
+                        .confirmationCode(r.getConfirmationCode())
+                        .createdAt(r.getCreatedAt())
+                        .status(r.getStatus())
+                        .slotId(r.getSlot().getId())
+                        .slotDate(r.getSlot().getDate())
+                        .slotStartTime(r.getSlot().getStartTime())
+                        .slotEndTime(r.getSlot().getEndTime())
+                        .build())
+                .toList();
     }
 
     public void cancelReservation(UUID reservationId) {

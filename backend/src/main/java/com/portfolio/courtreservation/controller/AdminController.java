@@ -1,8 +1,8 @@
 package com.portfolio.courtreservation.controller;
 
 import com.portfolio.courtreservation.dto.CourtRequest;
+import com.portfolio.courtreservation.dto.ReservationResponse;
 import com.portfolio.courtreservation.model.Court;
-import com.portfolio.courtreservation.model.Reservation;
 import com.portfolio.courtreservation.service.CourtService;
 import com.portfolio.courtreservation.service.ReservationService;
 import com.portfolio.courtreservation.service.SlotService;
@@ -40,7 +40,7 @@ public class AdminController {
     }
 
     @GetMapping("/courts/{courtId}/reservations")
-    public ResponseEntity<List<Reservation>> getReservationsForCourt(@PathVariable UUID courtId) {
+    public ResponseEntity<List<ReservationResponse>> getReservationsForCourt(@PathVariable UUID courtId) {
         return ResponseEntity.ok(reservationService.getReservationsForCourt(courtId));
     }
 

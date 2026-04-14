@@ -20,10 +20,10 @@ POST http://localhost:8080/api/admin/courts/58b2853c-5ade-44a7-b410-0c3a9cfcb77c
 Authorization: Basic admin yourpassword
 
 ### Get slots for the court
-GET http://localhost:8080/api/courts/58b2853c-5ade-44a7-b410-0c3a9cfcb77c/slots?startDate=2026-04-14&endDate=2026-04-21
+GET http://localhost:8080/api/courts/25288241-1e64-4f7e-bb2f-a48db8377e1e/slots?startDate=2026-04-14&endDate=2026-04-21
 
 ### Reserve a slot (replace SLOT_ID with any id from the slots response)
-POST http://localhost:8080/api/courts/58b2853c-5ade-44a7-b410-0c3a9cfcb77c/slots/e2927fef-177f-4592-9c85-e2cad7952d0a/reserve
+POST http://localhost:8080/api/courts/25288241-1e64-4f7e-bb2f-a48db8377e1e/slots/c9e1512a-397b-412f-ae3b-65af8a6dd522/reserve
 Content-Type: application/json
 
 {
