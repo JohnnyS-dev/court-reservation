@@ -1,4 +1,4 @@
 target/
 .idea/
 *.env
-application-local.properties
+application-local.propertiestarget/

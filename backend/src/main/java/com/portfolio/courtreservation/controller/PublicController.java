@@ -1,9 +1,12 @@
 package com.portfolio.courtreservation.controller;
 
+import com.portfolio.courtreservation.dto.CourtResponse;
 import com.portfolio.courtreservation.dto.ReserveRequest;
 import com.portfolio.courtreservation.dto.ReserveResponse;
 import com.portfolio.courtreservation.dto.SlotResponse;
+import com.portfolio.courtreservation.model.Court;
 import com.portfolio.courtreservation.model.TimeSlot;
+import com.portfolio.courtreservation.repository.CourtRepository;
 import com.portfolio.courtreservation.repository.TimeSlotRepository;
 import com.portfolio.courtreservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +23,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PublicController {
 
+    private final CourtRepository courtRepository;
     private final TimeSlotRepository timeSlotRepository;
     private final ReservationService reservationService;
+
+    @GetMapping("/{courtId}")
+    public ResponseEntity<CourtResponse> getCourt(@PathVariable UUID courtId) {
+        return courtRepository.findById(courtId)
+                .map(this::toCourtResponse)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @GetMapping("/{courtId}/slots")
     public ResponseEntity<List<SlotResponse>> getSlots(
@@ -57,6 +69,18 @@ public class PublicController {
                 .startTime(slot.getStartTime())
                 .endTime(slot.getEndTime())
                 .status(slot.getStatus())
+                .build();
+    }
+
+    private CourtResponse toCourtResponse(Court court) {
+        return CourtResponse.builder()
+                .id(court.getId())
+                .name(court.getName())
+                .type(court.getType())
+                .operatingHoursStart(court.getOperatingHoursStart())
+                .operatingHoursEnd(court.getOperatingHoursEnd())
+                .maxDaysOut(court.getMaxDaysOut())
+                .active(court.getActive())
                 .build();
     }
 }
