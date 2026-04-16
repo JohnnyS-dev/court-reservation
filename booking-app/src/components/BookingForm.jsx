@@ -38,7 +38,7 @@ export default function BookingForm({ slot, courtId, onConfirmed, onCancel }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  const slotDate = slot.date ?? slot.slotDate ?? slot.startDate;
+  const slotDate = slot.date;
   const slotId = slot.id ?? slot.slotId;
 
   async function handleSubmit(e) {
@@ -48,8 +48,7 @@ export default function BookingForm({ slot, courtId, onConfirmed, onCancel }) {
 
     try {
       const result = await reserveSlot(courtId, slotId, name.trim(), email.trim());
-      // TODO: confirm the exact field name for the confirmation code in the API response
-      const code = result.confirmationCode ?? result.code ?? result.id;
+      const code = result.confirmationCode;
       onConfirmed(String(code));
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.');

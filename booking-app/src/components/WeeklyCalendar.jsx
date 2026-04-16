@@ -35,7 +35,7 @@ function formatTime(timeStr) {
 function groupSlotsByDate(slots) {
   const map = {};
   for (const slot of slots) {
-    const date = slot.date ?? slot.slotDate ?? slot.startDate;
+    const date = slot.date;
     if (!map[date]) map[date] = [];
     map[date].push(slot);
   }

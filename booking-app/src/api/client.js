@@ -39,7 +39,6 @@ export async function reserveSlot(courtId, slotId, bookerName, bookerEmail) {
 
 /**
  * Fetch court details by ID.
- * TODO: backend endpoint GET /api/courts/:courtId not yet implemented — wire up when ready
  * @param {string} courtId
  */
 export async function getCourt(courtId) {
