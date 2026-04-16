@@ -115,6 +115,15 @@ body {
   flex: 1;
 }
 
+.time-selects {
+  display: flex;
+  gap: 8px;
+}
+
+.time-selects select {
+  flex: 1;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;

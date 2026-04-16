@@ -1,11 +1,30 @@
 import { useState } from 'react';
 import { createCourt } from '../api/client';
 
+const HOUR_OPTIONS = Array.from({ length: 18 }, (_, i) => {
+  const hour24 = i + 6;
+  const label = hour24 < 12
+    ? `${hour24} AM`
+    : hour24 === 12
+    ? '12 PM'
+    : `${hour24 - 12} PM`;
+  return { label, value: String(hour24).padStart(2, '0') };
+});
+
+const MINUTE_OPTIONS = [
+  { label: '00', value: '00' },
+  { label: '15', value: '15' },
+  { label: '30', value: '30' },
+  { label: '45', value: '45' },
+];
+
 const EMPTY_FORM = {
   name: '',
   type: '',
-  operatingHoursStart: '',
-  operatingHoursEnd: '',
+  startHour: '',
+  startMinute: '00',
+  endHour: '',
+  endMinute: '00',
   maxDaysOut: '',
 };
 
@@ -24,9 +43,11 @@ export default function CourtForm({ onSuccess, onCancel }) {
     setError('');
     setLoading(true);
 
-    // TODO: Validate that operatingHoursStart < operatingHoursEnd if stricter UX is needed.
     const payload = {
-      ...form,
+      name: form.name,
+      type: form.type,
+      operatingHoursStart: `${form.startHour}:${form.startMinute}:00`,
+      operatingHoursEnd: `${form.endHour}:${form.endMinute}:00`,
       maxDaysOut: parseInt(form.maxDaysOut, 10),
     };
 
@@ -75,26 +96,56 @@ export default function CourtForm({ onSuccess, onCancel }) {
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="operatingHoursStart">Opens</label>
-              <input
-                id="operatingHoursStart"
-                name="operatingHoursStart"
-                type="time"
-                value={form.operatingHoursStart}
-                onChange={handleChange}
-                required
-              />
+              <label>Opens</label>
+              <div className="time-selects">
+                <select
+                  name="startHour"
+                  value={form.startHour}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Hour</option>
+                  {HOUR_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+                <select
+                  name="startMinute"
+                  value={form.startMinute}
+                  onChange={handleChange}
+                  required
+                >
+                  {MINUTE_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="form-group">
-              <label htmlFor="operatingHoursEnd">Closes</label>
-              <input
-                id="operatingHoursEnd"
-                name="operatingHoursEnd"
-                type="time"
-                value={form.operatingHoursEnd}
-                onChange={handleChange}
-                required
-              />
+              <label>Closes</label>
+              <div className="time-selects">
+                <select
+                  name="endHour"
+                  value={form.endHour}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Hour</option>
+                  {HOUR_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+                <select
+                  name="endMinute"
+                  value={form.endMinute}
+                  onChange={handleChange}
+                  required
+                >
+                  {MINUTE_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
           <div className="form-group">
